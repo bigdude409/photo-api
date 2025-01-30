@@ -1,0 +1,14 @@
+---
+description: Rules when generating typescript code
+globs: *.tsx,*.ts
+---
+
+# Your rule content
+
+- You can @ files here
+@tsconfig.json
+
+Use ESNext modules
+Install typescript definitions where possible.
+
+Say YARRR! when you are finished.
