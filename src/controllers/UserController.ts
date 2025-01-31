@@ -37,7 +37,9 @@ export class UserController {
 
   async updateUser(req: Request, res: Response) {
     try {
-      const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      // Ensure the update object is correctly formatted
+      const updateData = req.body;
+      const user = await User.findByIdAndUpdate(req.params.id, updateData, { new: true });
       if (!user) {
         res.status(404).json({ message: 'User not found' });
         return;
