@@ -44,6 +44,7 @@ if (cluster.isPrimary) {
 
   // Use user routes
   app.use('/api/v1/users', userRoutes);
+  
   app.listen(PORT, async () => {
     await connectDB();
     console.log(`Worker ${process.pid} started on port ${PORT}`);
