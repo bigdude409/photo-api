@@ -30,8 +30,8 @@ export class AuthController {
         res.status(400).json({ error: 'Invalid credentials' });
         return;
       }
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
-      res.json({ token });
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+      res.json({ token, userId: user._id });
     } catch (error) {
       res.status(500).json({ error: 'Error logging in' });
     }

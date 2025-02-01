@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { userRoutes } from './routes/userRoutes.js';
 import cluster from 'cluster';
 import os from 'os';
-
+import cors from 'cors';
 // Load environment variables
 dotenv.config();
 
@@ -26,6 +26,11 @@ if (cluster.isPrimary) {
   const app = express();
   const PORT = process.env.PORT || 3000;
   const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/photo-api';
+
+  // CORS configuration
+  app.use(cors({
+    origin: 'http://localhost:3000' // Allow only http://localhost:3000 to access
+}));
 
   // Middleware
   app.use(express.json());
