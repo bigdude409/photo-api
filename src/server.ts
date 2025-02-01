@@ -29,8 +29,9 @@ if (cluster.isPrimary) {
 
   // CORS configuration
   app.use(cors({
-    origin: 'http://localhost:3000' // Allow only http://localhost:3000 to access
-}));
+    // origin: 'http://localhost:3000' // Allow only http://localhost:3000 to access
+    origin: '*'
+  }));
 
   // Middleware
   app.use(express.json());
