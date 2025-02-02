@@ -14,4 +14,6 @@ use('photo-api');
 // });
 
 // db.getCollection('users').find({ email: 'chipwiley@outlook.com' });
-db.getCollection('users').find({ _id: '679c03e92016fbb94ebe84e4' });
+// db.getCollection('users').find({ _id: '679c03e92016fbb94ebe84e4' });
+
+db.getCollection('media').deleteMany({});

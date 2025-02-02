@@ -76,7 +76,7 @@ function processDirectory(dir, token) {
 
             if (stats.isDirectory()) {
               processDirectory(filePath, token).then(resolve).catch(reject);
-            } else if (path.extname(file).toLowerCase() === '.jpg') {
+            } else if (path.extname(file).toLowerCase() === '.jpg' || path.extname(file).toLowerCase() === '.jpeg') {
               extractExifData(filePath, token).then(resolve).catch(reject);
             } else {
               resolve();
@@ -117,13 +117,13 @@ function extractExifData(filePath, token) {
             exposureTime: exifData.exif.ExposureTime,
             fNumber: exifData.exif.FNumber,
             iso: exifData.exif.ISO,
-            focalLength: exifData.exif.FocalLength,
+            focalLength: (exifData.exif.FocalLength),
             dateTaken: exifData.exif.DateTimeOriginal,
             location: exifData.gps ? `${exifData.gps.GPSLatitude}, ${exifData.gps.GPSLongitude}` : undefined,
             shutterSpeed: exifData.exif.ShutterSpeedValue
           };
           filteredExifData.fileName = path.basename(filePath);
-          fs.writeFile(jsonFilePath, JSON.stringify(filteredExifData, null, 2), async (err) => {
+          fs.writeFile(jsonFilePath, JSON.stringify(exifData, null, 2), async (err) => {
             if (err) {
               console.error(`Error writing JSON file ${jsonFilePath}:`, err);
               return reject(err);
