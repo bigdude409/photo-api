@@ -1,0 +1,17 @@
+{
+  "name": "exif-cli",
+  "version": "1.0.0",
+  "description": "A command line tool to extract EXIF data from JPG images and save it as JSON.",
+  "main": "exif-cli.js",
+  "bin": {
+    "exif-cli": "exif-cli.js"
+  },
+  "scripts": {
+    "start": "node exif-cli.js"
+  },
+  "dependencies": {
+    "exif": "^0.6.0"
+  },
+  "author": "",
+  "license": "ISC"
+} 

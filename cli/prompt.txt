@@ -1,0 +1,9 @@
+Code like a hacker
+
+1 Create a node.js command line program that takes a directory name as input parameter with the name exif-cli.js
+2 The program should scan the directory and all its subdirectories for files with the extension .jpg
+3 The program should then extract the EXIF data from the images
+4 The program should then save the EXIF data to a json file.
+5 The json file names should be the name of the image file and should be saved in the same directory as the image file.
+6 The program should then exit
+
