@@ -22,10 +22,13 @@ use('photo-api');
 db.getCollection('media').find({"images.0.exifData.location": {$exists: true}}).forEach(function(media) {
     media.images.forEach(function(image) {
         if (image.exifData.location) {
-            print(image.exifData.location);            
+            print(image.exifData.location);
+            // image.exifData.location = "Santa Barbara, CA";
+            // print(image.exifData.location);
+            
         }
     });
 
 });
-//db.getCollection('media').updateMany({"images.0.exifData.location": {$exists: true}}, {"$set": {"images.0.exifData.location": "Santa Barbara, CA"}});
+db.getCollection('media').updateMany({"images.0.exifData.location": {$exists: true}}, {"$set": {"images.0.exifData.location": "Santa Barbara, CA"}});
 
