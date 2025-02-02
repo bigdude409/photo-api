@@ -5,5 +5,6 @@ Code like a hacker
 3 The program should then extract the EXIF data from the images
 4 The program should then save the EXIF data to a json file.
 5 The json file names should be the name of the image file and should be saved in the same directory as the image file.
-6 The program should then exit
+6 Insert the EXIF data into a mongodb collection called media.
+7 The program should then exit
 
