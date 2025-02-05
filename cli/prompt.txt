@@ -8,3 +8,4 @@ Code like a hacker
 6 Insert the EXIF data into a mongodb collection called media.
 7 The program should then exit
 
+

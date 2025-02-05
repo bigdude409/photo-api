@@ -1,0 +1,25 @@
+Add the following steps to the exif-cli.js program:
+
+1 Using the userEmail and userPassword, login to the API and get the token use the LOGIN_API_URL endpoint
+2 Use the MEDIA_API_URL endpoint to POST the Exif data to the API endpoint use the auth token from the login
+3. Transform the exif data so that it can be posted to the API. The body of the POST request should be the Exif data in this format:
+{
+    "images": [
+        {
+            "src": "/photos/photo1.jpg",
+            "alt": "Landscape photo",
+            "exifData": {
+                "make": "Nikon",
+                "model": "Z6",
+                "shutterSpeed": "1/2500",
+                "fNumber": "2.8",
+                "iso": "400",
+                "focalLength": "105",
+                "dateTaken": "2024-03-19",
+                "location": "Pismo Beach, CA"
+            }
+        }
+        ]
+}
+
+

@@ -4,6 +4,17 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+    {
+      "name": "exif-cli",
+      "program": "${workspaceFolder}/cli/exif-cli.js",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/cli",
+      "args": ["/Users/chip/Projects/photo-journal/public/media", "bigdude409@outlook.com", "password"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    },
       {
         "type": "node",
         "request": "launch",

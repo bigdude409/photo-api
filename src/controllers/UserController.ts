@@ -69,7 +69,8 @@ export class UserController {
   async getUserMedia(req: AuthenticatedRequest, res: express.Response) {
     try {
       const userId = req.user.userId;
-      const media = await Media.find({ userId });
+      const media = await Media.find({ userId }).sort({ "images.0.exifData.dateTaken": 1 });
+      // const media = await Media.find({ userId });
       res.status(200).json(media);
     } catch (error) {
       res.status(500).json({ message: 'Error retrieving media', error });
