@@ -39,8 +39,13 @@ router.post('/register', authController.registerUser);
 // POST /api/v1/user/login
 router.post('/login', authController.loginUser);
 
+// Logout endpoint
+router.post('/logout', authController.logoutUser);
+
+
 // GET /api/v1/user/media
-router.get('/media/:id', authMiddleware, (req: AuthenticatedRequest, res) => {
+router.get('/media', authMiddleware, (req: AuthenticatedRequest, res) => {
+  console.log('media call');
   userController.getUserMedia(req, res);
 });
 

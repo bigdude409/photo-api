@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
+import { AuthenticatedRequest } from '../types/AuthenticatedRequest.js';
 
 export class AuthController {
   // Register a new user
@@ -31,10 +32,23 @@ export class AuthController {
         return;
       }
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
-      res.json({ token, userId: user._id });
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        maxAge: 3600000 // 1 hour in milliseconds
+      });
+      res.status(200).json({ message: 'Login successful', userId: user._id });
     } catch (error) {
       res.status(500).json({ error: 'Error logging in' });
     }
+  }
+
+  logoutUser(req: AuthenticatedRequest, res: Response) {
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production'
+    });
+    res.status(200).send({ message: 'User logged out successfully' });
   }
 }
 

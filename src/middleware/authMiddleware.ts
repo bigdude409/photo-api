@@ -7,7 +7,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
+  const token = req.cookies.token;
   if (!token) {
     res.status(401).json({ error: 'Access denied. No token provided.' });
     return;

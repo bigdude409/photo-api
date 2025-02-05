@@ -5,12 +5,16 @@ import { userRoutes } from './routes/userRoutes.js';
 import cluster from 'cluster';
 import os from 'os';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
 // Load environment variables
 dotenv.config();
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 // Check if the current process is the master process
 if (cluster.isPrimary) {
-  const numCPUs = os.availableParallelism();
+  const numCPUs = isProduction ? os.availableParallelism() : 1;
   console.log(`Master ${process.pid} is running`);
 
   // Fork workers for each CPU core
@@ -29,12 +33,16 @@ if (cluster.isPrimary) {
 
   // CORS configuration
   app.use(cors({
-    // origin: 'http://localhost:3000' // Allow only http://localhost:3000 to access
-    origin: '*'
+    origin: ['http://localhost:3010', 'http://localhost:3000'],
+    credentials: true, // Allow credentials (cookies, authorization headers)
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
   }));
 
   // Middleware
   app.use(express.json());
+  app.use(cookieParser());
+
 
   // Connect to MongoDB
   type ConnectDB = () => Promise<void>;
