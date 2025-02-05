@@ -43,15 +43,4 @@ router.post('/login', authController.loginUser);
 router.post('/logout', authController.logoutUser);
 
 
-// GET /api/v1/user/media
-router.get('/media', authMiddleware, (req: AuthenticatedRequest, res) => {
-  console.log('media call');
-  userController.getUserMedia(req, res);
-});
-
-// POST /api/v1/user/media
-router.post('/media/:id', authMiddleware, (req: AuthenticatedRequest, res) => {
-  userController.addMedia(req, res);
-});
-
 export { router as userRoutes };

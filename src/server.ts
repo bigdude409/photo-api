@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { userRoutes } from './routes/userRoutes.js';
+import { mediaRoutes } from './routes/mediaRoutes.js';
 import cluster from 'cluster';
 import os from 'os';
 import cors from 'cors';
@@ -43,7 +44,6 @@ if (cluster.isPrimary) {
   app.use(express.json());
   app.use(cookieParser());
 
-
   // Connect to MongoDB
   type ConnectDB = () => Promise<void>;
   const connectDB: ConnectDB = async () => {
@@ -58,6 +58,7 @@ if (cluster.isPrimary) {
 
   // Use user routes
   app.use('/api/v1/user', userRoutes);
+  app.use('/api/v1/media', mediaRoutes);
 
   app.listen(PORT, async () => {
     await connectDB();
