@@ -9,7 +9,6 @@ const mediaController = new MediaController();
 
 // GET /api/v1/user/media
 router.get('/', authMiddleware, (req: AuthenticatedRequest, res) => {
-  console.log('media call');
   mediaController.getUserMedia(req, res);
 });
 

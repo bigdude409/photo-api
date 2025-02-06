@@ -37,13 +37,12 @@ async function main() {
     await client.connect();
     console.log('Connected to MongoDB');
     
-    // Login to get the token
-    const token = await loginAndGetToken();
+    // Login to set the cookie
+    await loginAndSetCookie();
     
     // Process the directory and extract Exif data
-    await processDirectory(directory, token);
+    await processDirectory(directory);
     
-
     // Post the Exif data
    
     
@@ -57,7 +56,7 @@ async function main() {
 
 main();
 
-function processDirectory(dir, token) {
+function processDirectory(dir) {
   return new Promise((resolve, reject) => {
     fs.readdir(dir, (err, files) => {
       if (err) {
@@ -75,9 +74,9 @@ function processDirectory(dir, token) {
             }
 
             if (stats.isDirectory()) {
-              processDirectory(filePath, token).then(resolve).catch(reject);
+              processDirectory(filePath).then(resolve).catch(reject);
             } else if (path.extname(file).toLowerCase() === '.jpg' || path.extname(file).toLowerCase() === '.jpeg') {
-              extractExifData(filePath, token).then(resolve).catch(reject);
+              extractExifData(filePath).then(resolve).catch(reject);
             } else {
               resolve();
             }
@@ -102,7 +101,7 @@ async function insertExifDataToDB(exifData, filePath) {
   }
 }
 
-function extractExifData(filePath, token) {
+function extractExifData(filePath) {
   return new Promise((resolve, reject) => {
     try {
       new ExifImage({ image: filePath }, async function (error, exifData) {
@@ -129,8 +128,7 @@ function extractExifData(filePath, token) {
               return reject(err);
             } else {
               console.log(`EXIF data saved to ${jsonFilePath}`);
-            //   await insertExifDataToDB(filteredExifData, filePath);
-              await postExifData(token, filteredExifData);
+              await postExifData(filteredExifData);
               resolve();
             }
           });
@@ -143,14 +141,16 @@ function extractExifData(filePath, token) {
   });
 }
 
-// Function to login and get the token
-async function loginAndGetToken() {
+// Function to login and set the cookie
+async function loginAndSetCookie() {
     try {
-        const response = await axios.post(LOGIN_API_URL, {
+        await axios.post(LOGIN_API_URL, {
             email: userEmail,
             password: userPassword
+        }, {
+            withCredentials: true // This will allow cookies to be sent and received
         });
-        return response.data.token;
+        console.log('Logged in and cookie set');
     } catch (error) {
         console.error('Error logging in:', error);
         throw error;
@@ -171,14 +171,12 @@ function transformExifData(exifData) {
 }
 
 // Function to post Exif data
-async function postExifData(token, exifData) {
+async function postExifData(exifData) {
     try {
         const transformedData = transformExifData(exifData);
         console.log(JSON.stringify(transformedData));
         const response = await axios.post(MEDIA_API_URL + '/679c03e92016fbb94ebe84e4', transformedData, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+            withCredentials: true // Ensure cookies are sent with the request
         });
         console.log('Exif data posted successfully:', response.data);
     } catch (error) {

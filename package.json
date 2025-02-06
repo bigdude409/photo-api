@@ -7,7 +7,8 @@
     "build": "tsc",
     "start": "node ./dist/server.js",
     "dev": "nodemon ./dist/server.js",
-    "ts-node": "ts-node ./src/server.ts"
+    "ts-node": "ts-node ./src/server.ts",
+    "prod": "NODE_ENV=production node ./dist/server.js"
   },
   "keywords": [],
   "author": "",
