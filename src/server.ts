@@ -13,9 +13,9 @@ dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Check if the current process is the master process
-if (cluster.isPrimary) {
-  const numCPUs = isProduction ? os.availableParallelism() : 1;
+// Check if the current process is the master process and running in production
+if (cluster.isPrimary && isProduction) {
+  const numCPUs = os.availableParallelism();
   console.log(`Master ${process.pid} is running`);
 
   // Fork workers for each CPU core
@@ -32,13 +32,28 @@ if (cluster.isPrimary) {
   const PORT = process.env.PORT || 3000;
   const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/photo-api';
 
-  // CORS configuration
-  app.use(cors({
-    origin: ['http://localhost:3010', 'http://localhost:3000'],
-    credentials: true, // Allow credentials (cookies, authorization headers)
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
-    allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
-  }));
+  // CORS configuration for development ONLY!
+  if (!isProduction) {
+    console.log('CORS enabled for development.');
+    let corsNetworks: string[] = ["http://localhost:3000"];
+
+    const networkInterfaces = os.networkInterfaces();
+
+    Object.keys(networkInterfaces).forEach((iface) => {
+      networkInterfaces[iface]?.forEach((address) => {
+        if (address.family === 'IPv4' && !address.internal) {
+          corsNetworks.push(`http://${address.address}:3000`);
+        }
+      });
+    });
+    app.use(cors({
+      origin: corsNetworks, // Allow these origins
+      credentials: true, // Allow credentials (cookies, authorization headers)
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
+      allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+    }));
+
+  }
 
   // Middleware
   app.use(express.json());
