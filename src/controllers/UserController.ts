@@ -1,9 +1,6 @@
 // src/controllers/UserController.ts
 import User from '../models/user.js';
 import { Request, Response } from 'express';
-import Media from '../models/media.js';
-import { AuthenticatedRequest } from '../types/AuthenticatedRequest.js';
-import express from 'express';
 
 export class UserController {
   async getAllUsers(req: Request, res: Response) {
