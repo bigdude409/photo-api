@@ -5,7 +5,7 @@ import { AuthenticatedRequest } from '../types/AuthenticatedRequest.js';
 import express from 'express';
 
 export class MediaController {
-  
+
 
   async getUserMedia(req: AuthenticatedRequest, res: express.Response) {
     try {
