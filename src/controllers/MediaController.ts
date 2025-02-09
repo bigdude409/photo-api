@@ -10,7 +10,7 @@ export class MediaController {
   async getUserMedia(req: AuthenticatedRequest, res: express.Response) {
     try {
       const userId = req.user.userId;
-      const media = await Media.find({ userId }).sort({ "images.0.exifData.dateTaken": 1 });
+      const media = await Media.find({ userId }).sort({ "images.exifData.dateTaken": 1 });
       // const media = await Media.find({ userId });
       res.status(200).json(media);
     } catch (error) {
